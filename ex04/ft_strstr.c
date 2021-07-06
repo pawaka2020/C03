@@ -1,38 +1,70 @@
-char	*ft_strstr(char *str, char *to_find)
+void  scan(char *str, char *to_find, int i, int *npos)
 {
-	int i;
-	int j;
+  int x;
+  int y;
 
-	if (to_find[0] == '\0')
-		return (str);
-	i = 0;
-	while (str[i] != '\0')
-	{
-		j = 0;
-		while (to_find[j] != '\0')
-		{
-			if (str[i + j] == to_find[j])
-			{
-				j++;
-			}
-			else
-				break ;
-		}
-		if (to_find[j] == '\0')
-		{
-			return (str + i);
-		}
-		i++;
-	}
-	return (0);
+  x = i;
+  y = 0;
+  while (to_find[y])
+  {
+    if (to_find[y] == str[x])
+    {
+      *npos = x;
+    }
+    else
+    {
+      *npos = -1;
+    }
+      y++;
+      x++;
+  }
+  if (*npos != -1)
+  {
+    *npos = i;
+  }
 }
 
-// #include <stdio.h>
+void  setresult(char **result, int npos, char *str, char* to_find)
+{
+  if (to_find[0] == '\0')
+  {
+    *result = str;
+  }
+  else if (npos == -1)
+  {
+    *result = "\0";
+  }
+  else
+  {
+    *result = str + npos;
+  }
+}
 
-// int main(void) {
-//   char s1[] = "I like pancakes with cherry cream";
-//   char s2[] = "pan";
-//   printf("s1: %s, s2: %s\n",s1, s2);
-//   char *result = ft_strstr(s1, s2);
-//   printf("%s\n", result);
-// }
+char  *ft_strstr(char *str, char *to_find)
+{
+  char *result;
+  int i;
+  int npos;
+
+  npos =-1;
+  i = -1;
+  while (i++, str[i])
+  {
+    if ((str[i] == to_find[0]) && npos == -1)
+    {
+      scan(str, to_find, i, &npos);
+    }
+  }
+  setresult(&result, npos, str, to_find);
+  return (result);
+}
+
+#include <string.h>
+#include <stdio.h>
+int main(int argc, char *args[])
+{
+  char *output = ft_strstr(args[1], args[2]);
+  printf("The output from ft_strstr is: %s\n", output);
+  char *output2 = strstr(args[1], args[2]);
+  printf("The output from strstr is: %s\n", output);
+}
